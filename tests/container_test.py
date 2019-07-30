@@ -1,8 +1,6 @@
 #!/usr/bin/env pytest -vs
 """Tests for Docker composition."""
 
-import os
-import pytest
 import time
 
 READY_MESSAGES = {
