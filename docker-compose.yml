@@ -1,0 +1,114 @@
+---
+version: '3.6'
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres-password
+  postgres_username:
+    file: ./secrets/postgres-username
+
+networks:
+  guacnet:
+    driver: bridge
+
+volumes:
+  dbdata:
+  dbinit:
+
+services:
+  init-guac-db:
+    command:
+      - /bin/sh
+      - -c
+      - |
+        test -e /init/initdb.sql &&
+        echo 'init file already exists' ||
+        /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql
+    image: "guacamole/guacamole"
+    volumes:
+      - "dbinit:/init"
+
+  guacd:
+    container_name: guacd
+    image: "guacamole/guacd"
+    networks:
+      guacnet:
+    restart: always
+
+  postgres:
+    container_name: postgres
+    depends_on:
+      - init-guac-db
+    environment:
+      POSTGRES_DB: guacamole_db
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
+      POSTGRES_USER_FILE: /run/secrets/postgres-username
+    image: postgres
+    networks:
+      guacnet:
+    restart: always
+    secrets:
+      - source: postgres_password
+        target: postgres-password
+      - source: postgres_username
+        target: postgres-username
+    volumes:
+      - "dbinit:/docker-entrypoint-initdb.d:ro"
+      - "dbdata:/var/lib/postgresql/data:rw"
+
+  guacamole:
+    command:
+      - /bin/sh
+      - -c
+      - |
+        export POSTGRES_USER=$$(cat /run/secrets/postgres-username);
+        export POSTGRES_PASSWORD=$$(cat /run/secrets/postgres-password);
+        /opt/guacamole/bin/start.sh
+    container_name: guacamole
+    depends_on:
+      - guacd
+      - postgres
+    environment:
+      GUACD_HOSTNAME: guacd
+      GUACD_PORT: 4822
+      POSTGRES_DATABASE: guacamole_db
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_PORT: 5432
+    image: "guacamole/guacamole"
+    links:
+      - guacd
+      - postgres
+    networks:
+      guacnet:
+    ports:
+      - 8080
+    restart: always
+    secrets:
+      - source: postgres_password
+        target: postgres-password
+      - source: postgres_username
+        target: postgres-username
+
+  nginx:
+    # TODO: Replace self-signed cert with a real cert
+    command: "/usr/sbin/nginx -g 'daemon off;'"
+    container_name: nginx
+    image: nginx
+    links:
+      - guacamole
+    networks:
+      guacnet:
+    ports:
+      - 8443:443
+    restart: always
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind
+        source: ./nginx/site.template
+        target: /etc/nginx/conf.d/default.conf
+      - type: bind
+        source: ./nginx/ssl
+        target: /etc/nginx/ssl
