@@ -41,6 +41,16 @@ repos:
     hooks:
       - id: flake8
         additional_dependencies:
+          # Due to an incompatibility from flake8-docstrings with the
+          # newest pydocstyle version, we pin pydocstyle to <4.0.0.
+          # Otherwise, flake8 fails with:
+          # "flake8-docstrings" failed during execution due to "module
+          # 'pydocstyle' has no attribute 'tokenize_open'"
+          # Once the official fix is released, we could switch it back to a
+          # newer version:
+          #   https://gitlab.com/pycqa/flake8-docstrings/issues/36
+          #   https://github.com/PyCQA/pydocstyle/issues/375
+          - pydocstyle < 4.0.0
           - flake8-docstrings
   - repo: https://github.com/asottile/pyupgrade
     rev: v1.19.0
