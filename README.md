@@ -27,7 +27,7 @@ as soon as possible.
 
 This composition exposes the following port to the localhost:
 
-- [8443](http://localhost:8443): `guacamole web interface`
+- [8443](http://localhost:8443): `guacamole` web interface
 
 ### Secrets ###
 
@@ -43,6 +43,8 @@ used by the guacamole container
 
 - postgres
   - `dbdata`: Stores all database data for the postgres container
+  - `dbinit`: Stores the postgres initialization script for the guacamole
+  database resources
 
 ## Contributing ##
 
