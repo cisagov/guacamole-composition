@@ -14,7 +14,6 @@ networks:
 volumes:
   dbdata:
   dbinit:
-  nginxssl:
 
 services:
   init-guac-db:
@@ -42,7 +41,7 @@ services:
         -subj '/C=US/ST=DC/L=Washington/O=CISA/OU=Example/CN=example.cisa.gov')
     image: nginx
     volumes:
-      - "nginxssl:/etc/nginx/ssl"
+      - "./nginx/ssl:/etc/nginx/ssl"
 
   guacd:
     container_name: guacd
@@ -126,4 +125,4 @@ services:
       - type: bind
         source: ./nginx/site.template
         target: /etc/nginx/conf.d/default.conf
-      - "nginxssl:/etc/nginx/ssl"
+      - "./nginx/ssl:/etc/nginx/ssl"

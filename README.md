@@ -41,9 +41,6 @@ used by the guacamole container
 
 ### Volumes ###
 
-- nginx
-  - `nginxssl`: Stores the SSL certificate and private key (automatically
-  generated the first time the composition starts up)
 - postgres
   - `dbdata`: Stores all database data for the postgres container
   - `dbinit`: Stores the postgres initialization script for the guacamole
