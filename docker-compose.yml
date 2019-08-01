@@ -105,7 +105,15 @@ services:
         target: postgres-username
 
   nginx:
-    command: "/usr/sbin/nginx -g 'daemon off;'"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        until test -f /etc/nginx/ssl/self.cert;
+        do >&2 echo 'Waiting for SSL certificate to be generated...';
+        sleep 1;
+        done;
+        /usr/sbin/nginx -g 'daemon off;'
     container_name: nginx
     depends_on:
       - generate-nginx-ssl
