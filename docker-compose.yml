@@ -14,6 +14,7 @@ networks:
 volumes:
   dbdata:
   dbinit:
+  nginxssl:
 
 services:
   init-guac-db:
@@ -27,6 +28,21 @@ services:
     image: "guacamole/guacamole"
     volumes:
       - "dbinit:/init"
+
+  generate-nginx-ssl:
+    command:
+      - /bin/sh
+      - -c
+      - >
+        test -e /etc/nginx/ssl/self.cert &&
+        echo 'SSL certificate already exists' ||
+        (apt-get -y update && apt-get -y install openssl &&
+        openssl req -nodes -newkey rsa:2048 -new -x509
+        -keyout /etc/nginx/ssl/self-ssl.key -out /etc/nginx/ssl/self.cert
+        -subj '/C=US/ST=DC/L=Washington/O=CISA/OU=Example/CN=example.cisa.gov')
+    image: nginx
+    volumes:
+      - "nginxssl:/etc/nginx/ssl"
 
   guacd:
     container_name: guacd
@@ -90,9 +106,10 @@ services:
         target: postgres-username
 
   nginx:
-    # TODO: Replace self-signed cert with a real cert
     command: "/usr/sbin/nginx -g 'daemon off;'"
     container_name: nginx
+    depends_on:
+      - generate-nginx-ssl
     image: nginx
     links:
       - guacamole
@@ -109,7 +126,4 @@ services:
       - type: bind
         source: ./nginx/site.template
         target: /etc/nginx/conf.d/default.conf
-      # Uncomment below to use a local cert
-      # - type: bind
-      #   source: ./nginx/ssl
-      #   target: /etc/nginx/ssl
+      - "nginxssl:/etc/nginx/ssl"
