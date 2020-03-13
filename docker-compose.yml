@@ -104,6 +104,9 @@ services:
         target: postgres-username
 
   nginx:
+    cap_add:
+      # Required to allow listening on privileged port 443
+      - NET_BIND_SERVICE
     command:
       - /bin/sh
       - -c
@@ -122,7 +125,7 @@ services:
     networks:
       guacnet:
     ports:
-      - 8443:443
+      - 443:443
     restart: always
     volumes:
       - type: bind
