@@ -19,7 +19,7 @@ in this repository.
 To start the composition, use the command: `docker-compose up`
 
 Connect to the `guacamole` web interface at:
-[https://localhost:8443](https://localhost:8443).
+[https://localhost](https://localhost).
 The default credentials are `guacadmin`, `guacadmin` - you should change those
 as soon as possible.
 
@@ -27,7 +27,7 @@ as soon as possible.
 
 This composition exposes the following port to the localhost:
 
-- [8443](http://localhost:8443): `guacamole` web interface
+- [443](https://localhost): `guacamole` web interface
 
 ### Secrets ###
 
