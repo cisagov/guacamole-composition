@@ -1,6 +1,6 @@
 # guacamole-composition #
 
-[![Build Status](https://travis-ci.com/cisagov/guacamole-composition.svg?branch=develop)](https://travis-ci.com/cisagov/guacamole-composition)
+[![GitHub Build Status](https://github.com/cisagov/guacamole-composition/workflows/build/badge.svg)](https://github.com/cisagov/guacamole-composition/actions)
 
 Creates a Docker composition containing instances of:
 
