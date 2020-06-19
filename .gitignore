@@ -1,5 +1,5 @@
 .mypy_cache
-__pycache__
 .python-version
+__pycache__
 nginx/ssl
 dbinit
