@@ -48,6 +48,9 @@ services:
       - dbdata:/var/lib/postgresql/data:rw
 
   guacamole:
+    cap_add:
+      # Required to allow listening on privileged port 80
+      - NET_BIND_SERVICE
     command:
       - /bin/sh
       - -c
@@ -68,7 +71,7 @@ services:
       POSTGRES_PORT: 5432
     image: cisagov/guacamole
     ports:
-      - 8080
+      - "127.0.0.1:80:8080/tcp"
     restart: always
     secrets:
       - source: postgres_password
