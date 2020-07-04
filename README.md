@@ -8,7 +8,6 @@ Creates a Docker composition containing instances of:
 remote desktop gateway.
 - [guacd](https://hub.docker.com/r/guacamole/guacd/) server-side proxy for
 Guacamole.
-- [nginx](https://hub.docker.com/_/nginx) reverse proxy (to enable HTTPS).
 - [Postgres](https://hub.docker.com/_/postgres/) relational database.
 
 ## Usage ##
@@ -19,15 +18,15 @@ in this repository.
 To start the composition, use the command: `docker-compose up`
 
 Connect to the `guacamole` web interface at:
-[https://localhost](https://localhost).
+[http://localhost](http://localhost).
 The default credentials are `guacadmin`, `guacadmin` - you should change those
 as soon as possible.
 
 ### Ports ###
 
-This composition exposes the following port to the localhost:
+This composition exposes the following port to the `localhost`:
 
-- [443](https://localhost): `guacamole` web interface
+- [80](http://localhost): `guacamole` web interface
 
 ### Secrets ###
 
