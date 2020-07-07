@@ -7,10 +7,6 @@ secrets:
   postgres_username:
     file: ./secrets/postgres-username
 
-networks:
-  guacnet:
-    driver: bridge
-
 volumes:
   dbdata:
 
@@ -23,30 +19,13 @@ services:
         test -e /init/initdb.sql &&
         echo 'init file already exists' ||
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
-    image: "guacamole/guacamole"
+    image: cisagov/guacamole
     volumes:
-      - "./dbinit:/init"
-
-  generate-nginx-ssl:
-    command:
-      - /bin/sh
-      - -c
-      - >
-        test -e /etc/nginx/ssl/self.cert &&
-        echo 'SSL certificate already exists' ||
-        (apt-get -y update && apt-get -y install openssl &&
-        openssl req -nodes -newkey rsa:2048 -new -x509
-        -keyout /etc/nginx/ssl/self-ssl.key -out /etc/nginx/ssl/self.cert
-        -subj '/C=US/ST=DC/L=Washington/O=CISA/OU=Example/CN=example.cisa.gov')
-    image: nginx
-    volumes:
-      - "./nginx/ssl:/etc/nginx/ssl"
+      - ./dbinit:/init
 
   guacd:
     container_name: guacd
-    image: "guacamole/guacd"
-    networks:
-      guacnet:
+    image: guacamole/guacd
     restart: always
 
   postgres:
@@ -58,8 +37,6 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
       POSTGRES_USER_FILE: /run/secrets/postgres-username
     image: postgres
-    networks:
-      guacnet:
     restart: always
     secrets:
       - source: postgres_password
@@ -67,10 +44,13 @@ services:
       - source: postgres_username
         target: postgres-username
     volumes:
-      - "./dbinit:/docker-entrypoint-initdb.d:ro"
-      - "dbdata:/var/lib/postgresql/data:rw"
+      - ./dbinit:/docker-entrypoint-initdb.d:ro
+      - dbdata:/var/lib/postgresql/data:rw
 
   guacamole:
+    cap_add:
+      # Required to allow listening on privileged port 80
+      - NET_BIND_SERVICE
     command:
       - /bin/sh
       - -c
@@ -85,54 +65,16 @@ services:
     environment:
       GUACD_HOSTNAME: guacd
       GUACD_PORT: 4822
+      HEADER_ENABLED: "true"
       POSTGRES_DATABASE: guacamole_db
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PORT: 5432
-    image: "guacamole/guacamole"
-    links:
-      - guacd
-      - postgres
-    networks:
-      guacnet:
+    image: cisagov/guacamole
     ports:
-      - 8080
+      - "127.0.0.1:80:8080/tcp"
     restart: always
     secrets:
       - source: postgres_password
         target: postgres-password
       - source: postgres_username
         target: postgres-username
-
-  nginx:
-    cap_add:
-      # Required to allow listening on privileged port 443
-      - NET_BIND_SERVICE
-    command:
-      - /bin/sh
-      - -c
-      - |
-        until test -f /etc/nginx/ssl/self.cert;
-        do >&2 echo 'Waiting for SSL certificate to be generated...';
-        sleep 1;
-        done;
-        /usr/sbin/nginx -g 'daemon off;'
-    container_name: nginx
-    depends_on:
-      - generate-nginx-ssl
-    image: nginx
-    links:
-      - guacamole
-    networks:
-      guacnet:
-    ports:
-      - 443:443
-    restart: always
-    volumes:
-      - type: bind
-        source: ./nginx/nginx.conf
-        target: /etc/nginx/nginx.conf
-        read_only: true
-      - type: bind
-        source: ./nginx/site.template
-        target: /etc/nginx/conf.d/default.conf
-      - "./nginx/ssl:/etc/nginx/ssl"
