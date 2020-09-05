@@ -60,7 +60,8 @@ jobs:
         with:
           path: ${{ env.PIP_CACHE_DIR }}
           key: "${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-\
-            ${{ hashFiles('**/requirements-test.txt') }}"
+            ${{ hashFiles('**/requirements-test.txt') }}-\
+            ${{ hashFiles('**/requirements.txt') }}"
           restore-keys: |
             ${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-
             ${{ runner.os }}-pip-test-
