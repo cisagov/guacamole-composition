@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Store installed Python version
@@ -56,16 +56,15 @@ jobs:
           echo "::set-env name=PY_VERSION::"\
           "$(python -c "import platform;print(platform.python_version())")"
       - name: Cache pip test requirements
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: "${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-\
+          key: "test-${{ runner.os }}-py${{ env.PY_VERSION }}-\
             ${{ hashFiles('**/requirements-test.txt') }}-\
             ${{ hashFiles('**/requirements.txt') }}"
           restore-keys: |
-            ${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-
-            ${{ runner.os }}-pip-test-
-            ${{ runner.os }}-pip-
+            test-${{ runner.os }}-py${{ env.PY_VERSION }}-
+            test-${{ runner.os }}-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
