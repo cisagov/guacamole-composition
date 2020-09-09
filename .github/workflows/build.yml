@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "::set-env name=PY_VERSION::"\
           "$(python -c "import platform;print(platform.python_version())")"
-      - name: Cache pip test requirements
+      - name: Cache testing requirements
         uses: actions/cache@v2
         with:
           path: ${{ env.PIP_CACHE_DIR }}
