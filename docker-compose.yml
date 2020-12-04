@@ -1,11 +1,11 @@
 ---
-version: '3.6'
+version: "3.7"
 
 secrets:
   postgres_password:
-    file: ./secrets/postgres-password
+    file: ./src/secrets/postgres-password
   postgres_username:
-    file: ./secrets/postgres-username
+    file: ./src/secrets/postgres-username
 
 volumes:
   dbdata:
