@@ -1,6 +1,8 @@
-# guacamole-composition #
+# guacamole-composition 🥑🐳 #
 
 [![GitHub Build Status](https://github.com/cisagov/guacamole-composition/workflows/build/badge.svg)](https://github.com/cisagov/guacamole-composition/actions)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/guacamole-composition.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/guacamole-composition/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/guacamole-composition.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/guacamole-composition/context:python)
 
 Creates a Docker composition containing instances of:
 
@@ -18,7 +20,8 @@ in this repository.
 To start the composition, use the command: `docker-compose up`
 
 Connect to the `guacamole` web interface at:
-[http://localhost](http://localhost).
+[http://localhost/guacamole](http://localhost/guacamole).
+
 The default credentials are `guacadmin`, `guacadmin` - you should change those
 as soon as possible.
 
@@ -26,17 +29,21 @@ as soon as possible.
 
 This composition exposes the following port to the `localhost`:
 
-- [80](http://localhost): `guacamole` web interface
+| Port  | Protocol | Service  | Purpose |
+|-------|----------|----------|---------|
+| 80    | TCP      | http     | `guacamole` web interface |
 
 ### Secrets ###
 
 Sample secrets have been provided - you should change these if you use this
 composition on a publicly-accessible host:
 
-- `postgres-username`: Text file containing the username of the postgres user
-used by the guacamole container
-- `postgres-password`: Text file containing the password of the postgres user
-used by the guacamole container
+| Filename | Purpose |
+|----------|---------|
+| postgres-username | Text file containing the username of the postgres user
+used by the guacamole container |
+| postgres-password | Text file containing the password of the postgres user
+used by the guacamole container |
 
 ### Volumes ###
 
