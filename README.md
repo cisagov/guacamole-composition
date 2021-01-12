@@ -12,22 +12,6 @@ remote desktop gateway.
 Guacamole.
 - [Postgres](https://hub.docker.com/_/postgres/) relational database.
 
-## Nota bene ##
-
-We currently use [a custom version of the Guacamole Docker
-image](https://hub.docker.com/r/cisagov/guacamole) mentioned above.
-This is because the official Guacamole Docker image does not include
-[the `guacamole-auth-header-*.jar` file that is required to provide
-header-based
-authentication](https://guacamole.apache.org/doc/gug/header-auth.html).
-We use header-based authentication in order to leverage our Kerberos
-setup via an Apache web proxy.  This functionality will be added to
-the official Guacamole Docker image in Docker Hub with the next
-release of Guacamole, at which time we can revert to using the
-official Docker image.  See
-[apache/guacamole-client#548](https://github.com/apache/guacamole-client/pull/548)
-for more details.
-
 ## Usage ##
 
 A sample [Docker composition](docker-compose.yml) is included

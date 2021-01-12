@@ -1,5 +1,5 @@
 ---
-version: "3.7"
+version: "3.1"
 
 secrets:
   postgres_password:
@@ -69,7 +69,7 @@ services:
       POSTGRES_DATABASE: guacamole_db
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PORT: 5432
-    image: cisagov/guacamole
+    image: guacamole/guacamole
     ports:
       - "127.0.0.1:80:8080/tcp"
     restart: always
