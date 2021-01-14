@@ -19,7 +19,7 @@ services:
         test -e /init/initdb.sql &&
         echo 'init file already exists' ||
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
-    image: cisagov/guacamole
+    image: guacamole/guacamole
     volumes:
       - ./dbinit:/init
 
