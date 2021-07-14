@@ -1,8 +1,8 @@
 # guacamole-composition 🥑🐳 #
 
 [![GitHub Build Status](https://github.com/cisagov/guacamole-composition/workflows/build/badge.svg)](https://github.com/cisagov/guacamole-composition/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/guacamole-composition.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/guacamole-composition/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/guacamole-composition.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/guacamole-composition/context:python)
+[![CodeQL](https://github.com/cisagov/guacamole-composition/workflows/CodeQL/badge.svg)](https://github.com/cisagov/guacamole-composition/actions/workflows/codeql-analysis.yml)
+[![Known Vulnerabilities](https://snyk.io/test/github/cisagov/guacamole-composition/badge.svg)](https://snyk.io/test/github/cisagov/guacamole-composition)
 
 Creates a Docker composition containing instances of:
 
@@ -12,7 +12,7 @@ remote desktop gateway.
 Guacamole.
 - [Postgres](https://hub.docker.com/_/postgres/) relational database.
 
-## Usage ##
+## Running ##
 
 A sample [Docker composition](docker-compose.yml) is included
 in this repository.
@@ -24,6 +24,15 @@ Connect to the `guacamole` web interface at:
 
 The default credentials are `guacadmin`, `guacadmin` - you should change those
 as soon as possible.
+
+### Volumes ###
+
+#### postgres ####
+
+| Mount Point | Purpose |
+| ----------- | ------- |
+| `dbdata` | Stores all database data for the postgres container |
+| `dbinit` | Stores the postgres initialization script for the guacamole database resources |
 
 ### Ports ###
 
@@ -44,13 +53,6 @@ composition on a publicly-accessible host:
 used by the guacamole container |
 | postgres-password | Text file containing the password of the postgres user
 used by the guacamole container |
-
-### Volumes ###
-
-- postgres
-  - `dbdata`: Stores all database data for the postgres container
-  - `dbinit`: Stores the postgres initialization script for the guacamole
-  database resources
 
 ## Contributing ##
 
