@@ -19,7 +19,7 @@ in this repository.
 
 To start the composition, use the command: `docker-compose up`
 
-Connect to the `guacamole` web interface at:
+Connect to the Guacamole web interface at:
 [http://localhost/guacamole](http://localhost/guacamole).
 
 The default credentials are `guacadmin`, `guacadmin` - you should change those
@@ -31,8 +31,8 @@ as soon as possible.
 
 | Mount Point | Purpose |
 | ----------- | ------- |
-| `dbdata` | Stores all database data for the postgres container |
-| `dbinit` | Stores the postgres initialization script for the guacamole database resources |
+| `dbdata` | Stores all database data for the `postgres` container |
+| `dbinit` | Stores the `postgres` initialization script for the `guacamole` database resources |
 
 ### Ports ###
 
@@ -40,7 +40,7 @@ This composition exposes the following port to the `localhost`:
 
 | Port  | Protocol | Service  | Purpose |
 |-------|----------|----------|---------|
-| 80    | TCP      | http     | `guacamole` web interface |
+| 80    | TCP      | http     | Guacamole web interface |
 
 ### Secrets ###
 
@@ -49,10 +49,10 @@ composition on a publicly-accessible host:
 
 | Filename | Purpose |
 |----------|---------|
-| postgres-username | Text file containing the username of the postgres user
-used by the guacamole container |
-| postgres-password | Text file containing the password of the postgres user
-used by the guacamole container |
+| postgres-username | Text file containing the username of the `postgres` user
+used by the `guacamole` container |
+| postgres-password | Text file containing the password of the `postgres` user
+used by the `guacamole` container |
 
 ## Contributing ##
 
