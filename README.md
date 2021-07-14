@@ -49,10 +49,8 @@ composition on a publicly-accessible host:
 
 | Filename | Purpose |
 |----------|---------|
-| postgres-username | Text file containing the username of the `postgres` user
-used by the `guacamole` container |
-| postgres-password | Text file containing the password of the `postgres` user
-used by the `guacamole` container |
+| postgres-username | Text file containing the username of the `postgres` user used by the `guacamole` container |
+| postgres-password | Text file containing the password of the `postgres` user used by the `guacamole` container |
 
 ## Contributing ##
 
