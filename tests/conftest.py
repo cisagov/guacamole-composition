@@ -8,21 +8,21 @@ import pytest
 
 @pytest.fixture(scope="session")
 def guacamole_container(dockerc):
-    """Return the guacamole container from the docker composition."""
+    """Return the guacamole container from the Docker composition."""
     # find the container by name even if it is stopped already
     return dockerc.containers(service_names=["guacamole"], stopped=True)[0]
 
 
 @pytest.fixture(scope="session")
 def guacd_container(dockerc):
-    """Return the guacd container from the docker composition."""
+    """Return the guacd container from the Docker composition."""
     # find the container by name even if it is stopped already
     return dockerc.containers(service_names=["guacd"], stopped=True)[0]
 
 
 @pytest.fixture(scope="session")
 def postgres_container(dockerc):
-    """Return the postgres container from the docker composition."""
+    """Return the postgres container from the Docker composition."""
     # find the container by name even if it is stopped already
     return dockerc.containers(service_names=["postgres"], stopped=True)[0]
 
