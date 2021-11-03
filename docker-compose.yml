@@ -6,6 +6,16 @@ secrets:
     file: ./src/secrets/postgres-password
   postgres_username:
     file: ./src/secrets/postgres-username
+  private_ssh_key:
+    file: ./src/secrets/private-ssh-key
+  rdp_password:
+    file: ./src/secrets/rdp-password
+  rdp_username:
+    file: ./src/secrets/rdp-username
+  vnc_password:
+    file: ./src/secrets/vnc-password
+  vnc_username:
+    file: ./src/secrets/vnc-username
 
 volumes:
   dbdata:
@@ -78,3 +88,23 @@ services:
         target: postgres-password
       - source: postgres_username
         target: postgres-username
+
+  guacscanner:
+    depends_on:
+      - postgres
+    image: cisagov/guacscanner
+    secrets:
+      - source: postgres_password
+        target: postgres-password
+      - source: postgres_username
+        target: postgres-username
+      - source: private_ssh_key
+        target: private-ssh-key
+      - source: rdp_password
+        target: rdp-password
+      - source: rdp_username
+        target: rdp-username
+      - source: vnc_password
+        target: vnc-password
+      - source: vnc_username
+        target: vnc-username
