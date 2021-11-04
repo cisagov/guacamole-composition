@@ -46,7 +46,10 @@ services:
       POSTGRES_DB: guacamole_db
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
       POSTGRES_USER_FILE: /run/secrets/postgres-username
-    image: postgres
+    # The version of the JDBC PostgreSQL driver included in the
+    # Guacamole Docker image is too old to work with PostgreSQL 14 or
+    # later.
+    image: postgres:13
     restart: always
     secrets:
       - source: postgres_password
