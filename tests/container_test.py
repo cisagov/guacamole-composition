@@ -21,7 +21,7 @@ def test_container_count(dockerc):
 
 def test_wait_for_ready_guacamole(guacamole_container):
     """Wait for guacamole container to be ready."""
-    TIMEOUT = 10
+    TIMEOUT = 20
     ready_message = READY_MESSAGES["guacamole"]
     for i in range(TIMEOUT):
         if ready_message in guacamole_container.logs().decode("utf-8"):
