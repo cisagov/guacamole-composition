@@ -11,6 +11,9 @@ remote desktop gateway.
 - [guacd](https://hub.docker.com/r/guacamole/guacd/) server-side proxy for
 Guacamole.
 - [Postgres](https://hub.docker.com/_/postgres/) relational database.
+- [cisagov/guacscanner-docker](cisagov/guacscanner-docker) utility for
+  continually scanning the instances in an AWS VPC and updating the
+  Guacamole connections in the underlying PostgreSQL database.
 
 ## Running ##
 
