@@ -11,6 +11,10 @@ remote desktop gateway.
 - [guacd](https://hub.docker.com/r/guacamole/guacd/) server-side proxy for
 Guacamole.
 - [Postgres](https://hub.docker.com/_/postgres/) relational database.
+- [cisagov/guacscanner-docker](https://github.com/cisagov/guacscanner-docker)
+  utility for continually scanning the EC2 instances in an AWS VPC and
+  updating the Guacamole connections in the underlying PostgreSQL
+  database.
 
 ## Running ##
 
@@ -51,6 +55,11 @@ composition on a publicly-accessible host:
 |----------|---------|
 | postgres-username | Text file containing the username of the `postgres` user used by the `guacamole` container |
 | postgres-password | Text file containing the password of the `postgres` user used by the `guacamole` container |
+| private_ssh_key | Text file containing the private SSH key to use for SFTP file transfer in Guacamole. |
+| rdp_username | Text file containing the username for Guacamole to use when connecting to an instance via RDP. |
+| rdp_password | Text file containing the password for Guacamole to use when connecting to an instance via RDP. |
+| vnc_username | Text file containing the username for Guacamole to use when connecting to an instance via VNC. |
+| vnc_password | Text file containing the password for Guacamole to use when connecting to an instance via VNC. |
 
 ## Contributing ##
 
