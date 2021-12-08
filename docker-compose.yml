@@ -98,6 +98,7 @@ services:
     depends_on:
       - postgres
     image: cisagov/guacscanner:1.1.0-rc.2
+    restart: always
     secrets:
       - source: postgres_password
         target: postgres-password
