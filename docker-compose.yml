@@ -16,6 +16,8 @@ secrets:
     file: ./src/secrets/vnc-password
   vnc_username:
     file: ./src/secrets/vnc-username
+  windows_sftp_base:
+    file: ./src/secrets/windows-sftp-base
 
 volumes:
   dbdata:
@@ -95,7 +97,7 @@ services:
   guacscanner:
     depends_on:
       - postgres
-    image: cisagov/guacscanner
+    image: cisagov/guacscanner:1.1.0
     restart: always
     secrets:
       - source: postgres_password
@@ -112,3 +114,5 @@ services:
         target: vnc-password
       - source: vnc_username
         target: vnc-username
+      - source: windows_sftp_base
+        target: windows-sftp-base

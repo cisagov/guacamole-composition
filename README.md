@@ -53,13 +53,14 @@ composition on a publicly-accessible host:
 
 | Filename | Purpose |
 |----------|---------|
-| postgres-username | Text file containing the username of the `postgres` user used by the `guacamole` container |
-| postgres-password | Text file containing the password of the `postgres` user used by the `guacamole` container |
+| postgres_username | Text file containing the username of the `postgres` user used by the `guacamole` container |
+| postgres_password | Text file containing the password of the `postgres` user used by the `guacamole` container |
 | private_ssh_key | Text file containing the private SSH key to use for SFTP file transfer in Guacamole. |
 | rdp_username | Text file containing the username for Guacamole to use when connecting to an instance via RDP. |
 | rdp_password | Text file containing the password for Guacamole to use when connecting to an instance via RDP. |
 | vnc_username | Text file containing the username for Guacamole to use when connecting to an instance via VNC. |
 | vnc_password | Text file containing the password for Guacamole to use when connecting to an instance via VNC. |
+| windows_sftp_base | Text file containing the base path for the SFTP directories that Guacamole will use when connecting to a Windows instance via VNC. |
 
 ## Contributing ##
 
