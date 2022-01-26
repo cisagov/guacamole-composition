@@ -31,13 +31,13 @@ services:
         test -e /init/initdb.sql &&
         echo 'init file already exists' ||
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
-    image: guacamole/guacamole
+    image: guacamole/guacamole:1.4.0
     volumes:
       - ./dbinit:/init
 
   guacd:
     container_name: guacd
-    image: guacamole/guacd
+    image: guacamole/guacd:1.4.0
     restart: always
 
   postgres:
@@ -84,7 +84,7 @@ services:
       POSTGRES_DATABASE: guacamole_db
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PORT: 5432
-    image: guacamole/guacamole
+    image: guacamole/guacamole:1.4.0
     ports:
       - "127.0.0.1:80:8080/tcp"
     restart: always
