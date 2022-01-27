@@ -1,5 +1,5 @@
 ---
-version: "3.1"
+version: "3.2"
 
 secrets:
   postgres_password:
@@ -21,6 +21,7 @@ secrets:
 
 volumes:
   dbdata:
+  dbinit:
 
 services:
   init-guac-db:
@@ -33,7 +34,9 @@ services:
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
     image: guacamole/guacamole:1.4.0
     volumes:
-      - ./dbinit:/init
+      - source: dbinit
+        target: /init
+        type: volume
 
   guacd:
     container_name: guacd
@@ -59,8 +62,11 @@ services:
       - source: postgres_username
         target: postgres-username
     volumes:
-      - ./dbinit:/docker-entrypoint-initdb.d:ro
       - dbdata:/var/lib/postgresql/data:rw
+      - read_only: true
+        source: dbinit
+        target: /docker-entrypoint-initdb.d
+        type: volume
 
   guacamole:
     cap_add:
