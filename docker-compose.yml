@@ -21,7 +21,6 @@ secrets:
 
 volumes:
   dbdata:
-  dbinit:
 
 services:
   init-guac-db:
@@ -34,9 +33,9 @@ services:
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
     image: guacamole/guacamole:1.4.0
     volumes:
-      - source: dbinit
+      - source: ./dbinit
         target: /init
-        type: volume
+        type: bind
 
   guacd:
     container_name: guacd
@@ -63,9 +62,9 @@ services:
         target: postgres-username
     volumes:
       - read_only: true
-        source: dbinit
+        source: ./dbinit
         target: /docker-entrypoint-initdb.d
-        type: volume
+        type: bind
       - source: dbdata
         target: /var/lib/postgresql/data
         type: volume
