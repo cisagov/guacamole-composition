@@ -1,5 +1,5 @@
 ---
-version: "3.1"
+version: "3.2"
 
 secrets:
   postgres_password:
@@ -31,13 +31,15 @@ services:
         test -e /init/initdb.sql &&
         echo 'init file already exists' ||
         /opt/guacamole/bin/initdb.sh --postgres > /init/00_initdb.sql
-    image: guacamole/guacamole
+    image: guacamole/guacamole:1.4.0
     volumes:
-      - ./dbinit:/init
+      - source: ./dbinit
+        target: /init
+        type: bind
 
   guacd:
     container_name: guacd
-    image: guacamole/guacd
+    image: guacamole/guacd:1.4.0
     restart: always
 
   postgres:
@@ -49,8 +51,11 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
       POSTGRES_USER_FILE: /run/secrets/postgres-username
     # The version of the JDBC PostgreSQL driver included in the
-    # Guacamole Docker image (the one tagged "latest", as of November
-    # 5, 2021) is too old to work with PostgreSQL 14 or later.
+    # Guacamole Docker image (the one tagged "1.4.0") is too old to
+    # work with PostgreSQL 14 or later.
+    #
+    # See cisagov/guacamole-composition#37 for more information as to
+    # when this limitation can be remedied.
     image: postgres:13
     restart: always
     secrets:
@@ -59,8 +64,13 @@ services:
       - source: postgres_username
         target: postgres-username
     volumes:
-      - ./dbinit:/docker-entrypoint-initdb.d:ro
-      - dbdata:/var/lib/postgresql/data:rw
+      - read_only: true
+        source: ./dbinit
+        target: /docker-entrypoint-initdb.d
+        type: bind
+      - source: dbdata
+        target: /var/lib/postgresql/data
+        type: volume
 
   guacamole:
     cap_add:
@@ -84,7 +94,7 @@ services:
       POSTGRES_DATABASE: guacamole_db
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PORT: 5432
-    image: guacamole/guacamole
+    image: guacamole/guacamole:1.4.0
     ports:
       - "127.0.0.1:80:8080/tcp"
     restart: always
@@ -97,7 +107,7 @@ services:
   guacscanner:
     depends_on:
       - postgres
-    image: cisagov/guacscanner:1.1.6
+    image: cisagov/guacscanner:1.1.11
     restart: always
     secrets:
       - source: postgres_password
