@@ -107,7 +107,7 @@ services:
   guacscanner:
     depends_on:
       - postgres
-    image: cisagov/guacscanner:1.1.13-rc.3
+    image: cisagov/guacscanner:1.1.13-rc.4
     restart: always
     secrets:
       - source: postgres_password
