@@ -21,7 +21,7 @@ Guacamole.
 A sample [Docker composition](docker-compose.yml) is included
 in this repository.
 
-To start the composition, use the command: `docker-compose up`
+To start the composition, use the command: `docker compose up`
 
 Connect to the Guacamole web interface at:
 [http://localhost/guacamole](http://localhost/guacamole).
