@@ -8,19 +8,6 @@ from python_on_whales import docker
 
 
 @pytest.fixture(scope="session")
-def guacamole_container(dockerc):
-    """Return the guacamole container from the Docker composition."""
-    # find the container by name even if it is stopped already
-    return dockerc.containers(service_names=["guacamole"], stopped=True)[0]
-
-
-@pytest.fixture(scope="session")
-<<<<<<< HEAD
-def guacd_container(dockerc):
-    """Return the guacd container from the Docker composition."""
-    # find the container by name even if it is stopped already
-    return dockerc.containers(service_names=["guacd"], stopped=True)[0]
-=======
 def dockerc():
     """Start up the Docker composition."""
     docker.compose.up(detach=True)
@@ -29,22 +16,24 @@ def dockerc():
 
 
 @pytest.fixture(scope="session")
-def main_container(dockerc):
-    """Return the main container from the Docker composition."""
+def guacamole_container(dockerc):
+    """Return the guacamole container from the Docker composition."""
     # find the container by name even if it is stopped already
-    return dockerc.compose.ps(services=[MAIN_SERVICE_NAME], all=True)[0]
->>>>>>> a9d6c92ea3ca2760e4a18276d06c668058dd3670
+    return dockerc.compose.ps(services=["guacamole"], all=True)[0]
+
+
+@pytest.fixture(scope="session")
+def guacd_container(dockerc):
+    """Return the guacd container from the Docker composition."""
+    # find the container by name even if it is stopped already
+    return dockerc.compose.ps(services=["guacd"], all=True)[0]
 
 
 @pytest.fixture(scope="session")
 def postgres_container(dockerc):
     """Return the postgres container from the Docker composition."""
     # find the container by name even if it is stopped already
-<<<<<<< HEAD
-    return dockerc.containers(service_names=["postgres"], stopped=True)[0]
-=======
-    return dockerc.compose.ps(services=[VERSION_SERVICE_NAME], all=True)[0]
->>>>>>> a9d6c92ea3ca2760e4a18276d06c668058dd3670
+    return dockerc.compose.ps(services=["postgres"], all=True)[0]
 
 
 def pytest_addoption(parser):
