@@ -15,7 +15,7 @@ def test_container_count(dockerc):
     """Verify the test composition and container."""
     # stopped parameter allows non-running containers in results
     assert (
-        len(dockerc.containers(stopped=True)) == 5
+        len(dockerc.compose.ps(all=True)) == 5
     ), "Wrong number of containers were started."
 
 
@@ -24,7 +24,7 @@ def test_wait_for_ready_guacamole(guacamole_container):
     TIMEOUT = 20
     ready_message = READY_MESSAGES["guacamole"]
     for i in range(TIMEOUT):
-        if ready_message in guacamole_container.logs().decode("utf-8"):
+        if ready_message in guacamole_container.logs():
             break
         time.sleep(1)
     else:
@@ -39,7 +39,7 @@ def test_wait_for_ready_guacd(guacd_container):
     TIMEOUT = 10
     ready_message = READY_MESSAGES["guacd"]
     for i in range(TIMEOUT):
-        if ready_message in guacd_container.logs().decode("utf-8"):
+        if ready_message in guacd_container.logs():
             break
         time.sleep(1)
     else:
@@ -54,7 +54,7 @@ def test_wait_for_ready_postgres(postgres_container):
     TIMEOUT = 10
     ready_message = READY_MESSAGES["postgres"]
     for i in range(TIMEOUT):
-        if ready_message in postgres_container.logs().decode("utf-8"):
+        if ready_message in postgres_container.logs():
             break
         time.sleep(1)
     else:
