@@ -165,7 +165,6 @@ jobs:
     name: Test image
     needs:
       - diagnostics
-      - build
     runs-on: ubuntu-latest
     steps:
       - id: harden-runner
