@@ -47,7 +47,7 @@ services:
 
   guacd:
     container_name: guacd
-    image: guacamole/guacd:1.5.1
+    image: guacamole/guacd:1.6.0
     logging:
       driver: json-file
       options:
