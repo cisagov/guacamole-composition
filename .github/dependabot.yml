@@ -7,11 +7,6 @@
 
 updates:
   - directory: /
-    package-ecosystem: docker
-    schedule:
-      interval: weekly
-
-  - directory: /
     package-ecosystem: docker-compose
     schedule:
       interval: weekly
