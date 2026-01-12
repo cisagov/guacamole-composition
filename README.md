@@ -1,6 +1,7 @@
 # guacamole-composition 🥑🐳 #
 
 [![GitHub Build Status](https://github.com/cisagov/guacamole-composition/workflows/build/badge.svg)](https://github.com/cisagov/guacamole-composition/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/cisagov/guacamole-composition)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/guacamole-composition/workflows/CodeQL/badge.svg)](https://github.com/cisagov/guacamole-composition/actions/workflows/codeql-analysis.yml)
 
 Creates a Docker composition containing instances of:
