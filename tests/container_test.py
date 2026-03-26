@@ -20,44 +20,44 @@ def test_container_count(dockerc):
 
 def test_wait_for_ready_guacamole(guacamole_container):
     """Wait for guacamole container to be ready."""
-    TIMEOUT = 20
+    timeout = 10
     ready_message = READY_MESSAGES["guacamole"]
-    for i in range(TIMEOUT):
+    for _i in range(timeout):
         if ready_message in guacamole_container.logs():
             break
         time.sleep(1)
     else:
         raise Exception(
             f"Container does not seem ready.  "
-            f'Expected "{ready_message}" in the log within {TIMEOUT} seconds.'
+            f'Expected "{ready_message}" in the log within {timeout} seconds.'
         )
 
 
 def test_wait_for_ready_guacd(guacd_container):
     """Wait for guacd container to be ready."""
-    TIMEOUT = 10
+    timeout = 10
     ready_message = READY_MESSAGES["guacd"]
-    for i in range(TIMEOUT):
+    for _i in range(timeout):
         if ready_message in guacd_container.logs():
             break
         time.sleep(1)
     else:
         raise Exception(
             f"Container does not seem ready.  "
-            f'Expected "{ready_message}" in the log within {TIMEOUT} seconds.'
+            f'Expected "{ready_message}" in the log within {timeout} seconds.'
         )
 
 
 def test_wait_for_ready_postgres(postgres_container):
     """Wait for postgres container to be ready."""
-    TIMEOUT = 10
+    timeout = 10
     ready_message = READY_MESSAGES["postgres"]
-    for i in range(TIMEOUT):
+    for _i in range(timeout):
         if ready_message in postgres_container.logs():
             break
         time.sleep(1)
     else:
         raise Exception(
             f"Container does not seem ready.  "
-            f'Expected "{ready_message}" in the log within {TIMEOUT} seconds.'
+            f'Expected "{ready_message}" in the log within {timeout} seconds.'
         )

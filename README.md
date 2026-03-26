@@ -42,9 +42,9 @@ as soon as possible.
 
 This composition exposes the following port to the `localhost`:
 
-| Port  | Protocol | Service  | Purpose |
-|-------|----------|----------|---------|
-| 80    | TCP      | http     | Guacamole web interface |
+| Port | Protocol | Service | Purpose |
+| ---- | -------- | ------- | ------- |
+| 80 | TCP | http | Guacamole web interface |
 
 ### Secrets ###
 
@@ -52,7 +52,7 @@ Sample secrets have been provided - you should change these if you use this
 composition on a publicly-accessible host:
 
 | Filename | Purpose |
-|----------|---------|
+| -------- | ------- |
 | postgres_username | Text file containing the username of the `postgres` user used by the `guacamole` container |
 | postgres_password | Text file containing the password of the `postgres` user used by the `guacamole` container |
 | private_ssh_key | Text file containing the private SSH key to use for SFTP file transfer in Guacamole. |
