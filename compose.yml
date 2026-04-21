@@ -92,7 +92,7 @@ services:
       - |
         export POSTGRES_USER=$$(cat /run/secrets/postgres-username);
         export POSTGRES_PASSWORD=$$(cat /run/secrets/postgres-password);
-        /opt/guacamole/bin/start.sh
+        /opt/guacamole/bin/entrypoint.sh
     container_name: guacamole
     depends_on:
       - guacd
