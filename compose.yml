@@ -79,7 +79,7 @@ services:
         target: /docker-entrypoint-initdb.d
         type: bind
       - source: dbdata
-        target: /var/lib/postgresql/data
+        target: /var/lib/postgresql
         type: volume
 
   guacamole:
