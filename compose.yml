@@ -25,26 +25,9 @@ secrets:
 
 volumes:
   dbdata:
+  initdb:
 
 services:
-  init-guac-db:
-    command:
-      - /bin/sh
-      - -c
-      - |
-        test -e /init/initdb.sql &&
-        echo 'init file already exists' ||
-        /opt/guacamole/bin/initdb.sh --postgresql > /init/00_initdb.sql
-    image: guacamole/guacamole:1.6.0
-    logging:
-      driver: json-file
-      options:
-        max-size: 100m
-    volumes:
-      - source: ./dbinit
-        target: /init
-        type: bind
-
   guacd:
     container_name: guacd
     image: guacamole/guacd:1.6.0
@@ -56,8 +39,6 @@ services:
 
   postgres:
     container_name: postgres
-    depends_on:
-      - init-guac-db
     environment:
       POSTGRES_DB: guacamole_db
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
@@ -75,9 +56,9 @@ services:
         target: postgres-username
     volumes:
       - read_only: true
-        source: ./dbinit
+        source: initdb
         target: /docker-entrypoint-initdb.d
-        type: bind
+        type: volume
       - source: dbdata
         target: /var/lib/postgresql
         type: volume
@@ -118,6 +99,11 @@ services:
         target: postgres-password
       - source: postgres_username
         target: postgres-username
+    volumes:
+      - read_only: true
+        source: initdb
+        target: /opt/guacamole/extensions/guacamole-auth-jdbc/postgresql/schema
+        type: volume
 
   guacscanner:
     depends_on:

@@ -14,7 +14,7 @@ def test_container_count(dockerc):
     """Verify the test composition and container."""
     # all parameter allows non-running containers in results
     assert (
-        len(dockerc.compose.ps(all=True)) == 5
+        len(dockerc.compose.ps(all=True)) == 4
     ), "Wrong number of containers were started."
 
 
