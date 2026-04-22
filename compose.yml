@@ -90,8 +90,8 @@ services:
       - /bin/sh
       - -c
       - |
-        export POSTGRES_USER=$$(cat /run/secrets/postgres-username);
-        export POSTGRES_PASSWORD=$$(cat /run/secrets/postgres-password);
+        export POSTGRESQL_USERNAME=$$(cat /run/secrets/postgres-username);
+        export POSTGRESQL_PASSWORD=$$(cat /run/secrets/postgres-password);
         /opt/guacamole/bin/entrypoint.sh
     container_name: guacamole
     depends_on:
@@ -101,10 +101,10 @@ services:
       GUACD_HOSTNAME: guacd
       GUACD_PORT: 4822
       HEADER_ENABLED: "true"
-      POSTGRES_DATABASE: guacamole_db
+      POSTGRESQL_DATABASE: guacamole_db
       POSTGRESQL_ENABLED: "true"
-      POSTGRES_HOSTNAME: postgres
-      POSTGRES_PORT: 5432
+      POSTGRESQL_HOSTNAME: postgres
+      POSTGRESQL_PORT: 5432
     image: guacamole/guacamole:1.6.0
     logging:
       driver: json-file
