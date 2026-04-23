@@ -81,7 +81,7 @@ services:
     environment:
       GUACD_HOSTNAME: guacd
       GUACD_PORT: 4822
-      HEADER_ENABLED: "true"
+      HTTP_AUTH_ENABLED: "true"
       POSTGRESQL_DATABASE: guacamole_db
       POSTGRESQL_ENABLED: "true"
       POSTGRESQL_HOSTNAME: postgres
