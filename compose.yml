@@ -108,7 +108,7 @@ services:
   guacscanner:
     depends_on:
       - postgres
-    image: cisagov/guacscanner:1.2.1-rc.2
+    image: cisagov/guacscanner:1.2.1-rc.3
     logging:
       driver: json-file
       options:
