@@ -7,6 +7,7 @@ https://docs.pytest.org/en/latest/writing_plugins.html#conftest-py-plugins
 import pytest
 from python_on_whales import docker
 
+POSTGRES_USERNAME_FILE = "src/secrets/postgres-username"
 VERSION_FILE = "src/version.txt"
 
 
@@ -40,6 +41,14 @@ def postgres_container(dockerc):
     """Return the postgres container from the Docker composition."""
     # find the container by name even if it is stopped already
     return dockerc.compose.ps(services=["postgres"], all=True)[0]
+
+
+@pytest.fixture(scope="session")
+def postgres_username(dockerc):
+    """Return the postgres username secret used in the Docker composition."""
+    with open(POSTGRES_USERNAME_FILE) as f:
+        postgres_username = f.read().strip()
+    return postgres_username
 
 
 @pytest.fixture(scope="session")
