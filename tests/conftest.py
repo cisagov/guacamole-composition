@@ -15,7 +15,10 @@ def dockerc():
     """Start up the Docker composition."""
     docker.compose.up(detach=True)
     yield docker
-    docker.compose.down()
+    # Since this Docker composition includes data volumes, we want to
+    # remove volumes as well when we bring the composition down so we
+    # start from a clean slate next time.
+    docker.compose.down(volumes=True)
 
 
 @pytest.fixture(scope="session")
