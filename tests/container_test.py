@@ -61,3 +61,19 @@ def test_wait_for_ready_postgres(postgres_container):
             f"Container does not seem ready.  "
             f'Expected "{ready_message}" in the log within {timeout} seconds.'
         )
+
+
+def test_initialized_postgres(postgres_container, postgres_username):
+    """Check that the PostgreSQL database has been initialized for Guacamole."""
+    # Here we're assuming that if PostgreSQL contains a
+    # guacamole_connection table within the guacamole_db database then
+    # it is fully initialized.
+    response = postgres_container.execute(
+        [
+            "psql",
+            "--dbname=guacamole_db",
+            "--command=\\dt",
+            f"--username={postgres_username}",
+        ]
+    )
+    assert "guacamole_connection" in response
