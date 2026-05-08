@@ -49,7 +49,7 @@ services:
       start_period: 30s
       test:
         - CMD-SHELL
-        - pg_isready
+        - pg_isready --dbname=$$POSTGRES_DB
       timeout: 5s
     image: postgres:18
     logging:
