@@ -116,6 +116,7 @@ services:
         type: volume
 
   guacscanner:
+    container_name: guacscanner
     depends_on:
       postgres:
         condition: service_healthy
