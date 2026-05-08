@@ -85,7 +85,12 @@ services:
     container_name: guacamole
     depends_on:
       guacd:
-        condition: service_started
+        # The guacd container has a built-in health check, but it only
+        # runs every five minutes.  As a result it can take up to five
+        # minutes for the guacd container to register as healthy.
+        # This issue will be fixed in the 1.6.1 release:
+        # https://issues.apache.org/jira/browse/GUACAMOLE-2035
+        condition: service_healthy
       postgres:
         condition: service_healthy
     environment:
