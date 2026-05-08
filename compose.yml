@@ -101,6 +101,16 @@ services:
       POSTGRESQL_ENABLED: "true"
       POSTGRESQL_HOSTNAME: postgres
       POSTGRESQL_PORT: 5432
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 60s
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://localhost:8080/guacamole/
+      timeout: 10s
     image: guacamole/guacamole:1.6.0
     logging:
       driver: json-file
