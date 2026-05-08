@@ -43,6 +43,14 @@ services:
       POSTGRES_DB: guacamole_db
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
       POSTGRES_USER_FILE: /run/secrets/postgres-username
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      test:
+        - CMD-SHELL
+        - pg_isready
+      timeout: 5s
     image: postgres:18
     logging:
       driver: json-file
@@ -76,8 +84,10 @@ services:
         /opt/guacamole/bin/entrypoint.sh
     container_name: guacamole
     depends_on:
-      - guacd
-      - postgres
+      guacd:
+        condition: service_started
+      postgres:
+        condition: service_healthy
     environment:
       GUACD_HOSTNAME: guacd
       GUACD_PORT: 4822
@@ -107,7 +117,8 @@ services:
 
   guacscanner:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     image: cisagov/guacscanner:1.2.1
     logging:
       driver: json-file
