@@ -43,6 +43,14 @@ services:
       POSTGRES_DB: guacamole_db
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres-password
       POSTGRES_USER_FILE: /run/secrets/postgres-username
+    healthcheck:
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      test:
+        - CMD-SHELL
+        - pg_isready --dbname=$$POSTGRES_DB
+      timeout: 5s
     image: postgres:18
     logging:
       driver: json-file
@@ -76,8 +84,17 @@ services:
         /opt/guacamole/bin/entrypoint.sh
     container_name: guacamole
     depends_on:
-      - guacd
-      - postgres
+      guacd:
+        # TODO: The guacd container has a built-in health check, but
+        # it only runs every five minutes.  As a result it can take up
+        # to five minutes for the guacd container to register as
+        # healthy.  This issue will be fixed in the 1.6.1 release:
+        # https://issues.apache.org/jira/browse/GUACAMOLE-2035
+        #
+        # See #79 for more details.
+        condition: service_started
+      postgres:
+        condition: service_healthy
     environment:
       GUACD_HOSTNAME: guacd
       GUACD_PORT: 4822
@@ -86,6 +103,16 @@ services:
       POSTGRESQL_ENABLED: "true"
       POSTGRESQL_HOSTNAME: postgres
       POSTGRESQL_PORT: 5432
+    healthcheck:
+      interval: 30s
+      retries: 3
+      start_period: 60s
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://localhost:8080/guacamole/
+      timeout: 10s
     image: guacamole/guacamole:1.6.0
     logging:
       driver: json-file
@@ -106,8 +133,10 @@ services:
         type: volume
 
   guacscanner:
+    container_name: guacscanner
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     image: cisagov/guacscanner:1.2.1
     logging:
       driver: json-file
