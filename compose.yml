@@ -137,7 +137,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    image: cisagov/guacscanner:1.2.1
+    image: cisagov/guacscanner:1.2.2-rc.1
     logging:
       driver: json-file
       options:
